@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+// @RestController
 @Controller
 public class HomeController {
 
@@ -23,16 +24,16 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/publish", method=RequestMethod.POST)
-    public String publish(Model model, Message message) {
+    @RequestMapping(value = "/publish-ui", method=RequestMethod.POST)
+    public String publishUI(Model model, Message message) {
         // Send a message to the "messages" queue
         rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
         model.addAttribute("published", true);
         return index(model);
     }
 
-    @RequestMapping(value = "/get", method=RequestMethod.POST)
-    public String get(Model model) {
+    @RequestMapping(value = "/get-ui", method=RequestMethod.POST)
+    public String getUI(Model model) {
         // Receive a message from the "messages" queue
         String message = (String)rabbitTemplate.receiveAndConvert(queue.getName());
         if (message != null)
@@ -43,17 +44,20 @@ public class HomeController {
         return index(model);
     }
 
-    @RequestMapping(value = "/publish-basic", method=RequestMethod.POST)
-    public String publishBasic(Model model, Message message) {
-        // Send a message to the "messages" queue
-        rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
-        return "published";
-    }
+    // @GetMapping(value = "/get")
+    // public String get(Model model) {
+    //      // Receive a message from the "messages" queue
+    //     String message = (String)rabbitTemplate.receiveAndConvert(queue.getName());
+    //     if (message != null)
+    //         return "Message: " + message;
+    //     else
+    //         return "queue empty!";
+    // }
 
-    @RequestMapping(value = "/get-basic", method=RequestMethod.GET)
-    public String getBasic(Model model) {
-        // Receive a message from the "messages" queue
-        String message = (String)rabbitTemplate.receiveAndConvert(queue.getName());
-        return message;
-    }
+    // @PostMapping(value = "/publish")
+    // public String publish(Model model, Message message) {
+    //     rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
+    //     return "published";
+    // }
+
 }
