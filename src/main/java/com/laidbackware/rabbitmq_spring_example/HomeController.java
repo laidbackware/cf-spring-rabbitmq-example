@@ -17,13 +17,9 @@ public class HomeController {
     @Autowired
     private Queue queue;
 
-    @GetMapping("/")
-	public String index() {
-		return "Greetings from Spring Boot!";
-	}
 
     @GetMapping(value = "/get")
-    public String getBasic(Model model) {
+    public String get(Model model) {
          // Receive a message from the "messages" queue
         String message = (String)rabbitTemplate.receiveAndConvert(queue.getName());
         if (message != null)
@@ -37,12 +33,5 @@ public class HomeController {
         rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
         return "published";
     }
-
-    // @RequestMapping(value = "/publish-basic", method=RequestMethod.POST)
-    // public String publishBasic(Model model, Message message) {
-    //     // Send a message to the "messages" queue
-    //     rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
-    //     return "published";
-    // }
 
 }

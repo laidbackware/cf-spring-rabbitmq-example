@@ -8,9 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-// @RestController
 @Controller
-public class HomeController {
+public class HomeControllerUI {
 
     @Autowired
 	private AmqpTemplate rabbitTemplate;
@@ -43,21 +42,5 @@ public class HomeController {
 
         return index(model);
     }
-
-    // @GetMapping(value = "/get")
-    // public String get(Model model) {
-    //      // Receive a message from the "messages" queue
-    //     String message = (String)rabbitTemplate.receiveAndConvert(queue.getName());
-    //     if (message != null)
-    //         return "Message: " + message;
-    //     else
-    //         return "queue empty!";
-    // }
-
-    // @PostMapping(value = "/publish")
-    // public String publish(Model model, Message message) {
-    //     rabbitTemplate.convertAndSend(queue.getName(), message.getValue());
-    //     return "published";
-    // }
 
 }
